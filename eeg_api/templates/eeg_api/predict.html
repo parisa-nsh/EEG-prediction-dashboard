@@ -1,0 +1,36 @@
+{% extends "eeg_api/base.html" %}
+
+{% block title %}Predict - EEG Prediction Dashboard{% endblock %}
+
+{% block content %}
+<h1>Live Prediction</h1>
+
+<div class="card">
+    <p>Run a prediction with the selected model. Uses random sample data for demo.</p>
+</div>
+
+<form method="post" class="card">
+    {% csrf_token %}
+    <label for="model">Model:</label>
+    <select name="model" id="model" style="padding: 0.5rem; margin: 0.5rem 0; border-radius: 6px; background: #2a2a4a; color: #fff;">
+        <option value="random_forest">Random Forest</option>
+        <option value="shallow_nn">Shallow NN</option>
+    </select>
+    <br>
+    <button type="submit" class="btn">Run Prediction</button>
+</form>
+
+{% if result %}
+<div class="card">
+    <h2>Result</h2>
+    <p><strong>Predicted emotion:</strong> {{ result.emotion }}</p>
+    <p><strong>Confidence:</strong> {{ result.confidence|floatformat:2 }}</p>
+    <p><strong>All probabilities:</strong></p>
+    <ul>
+        {% for k, v in result.probs.items %}
+        <li>{{ k }}: {{ v|floatformat:3 }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

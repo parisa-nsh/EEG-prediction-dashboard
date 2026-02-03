@@ -1,0 +1,39 @@
+{% extends "eeg_api/base.html" %}
+
+{% block title %}Home - EEG Prediction Dashboard{% endblock %}
+
+{% block content %}
+<h1>EEG Emotion Prediction Dashboard</h1>
+
+<div class="card">
+    <p style="font-size: 1.1rem; line-height: 1.6;">
+        This project demonstrates EEG-based emotion classification using multiple ML models. 
+        Trained models predict emotions (happy, sad, anxious, neutral) from EEG features.
+    </p>
+</div>
+
+<h2>Quick Links</h2>
+<div class="grid-2">
+    <div class="card">
+        <h3>Model Comparison</h3>
+        <p>View confusion matrices for Random Forest and Shallow NN.</p>
+        <a href="{% url 'models' %}" class="btn">View Models →</a>
+    </div>
+    <div class="card">
+        <h3>Live Prediction</h3>
+        <p>Run predictions with sample EEG data.</p>
+        <a href="{% url 'predict' %}" class="btn">Try Predict →</a>
+    </div>
+</div>
+
+<h2>Available Models</h2>
+<div class="card">
+    <ul style="list-style: none;">
+        <li>• Random Forest – Ensemble classifier</li>
+        <li>• Shallow NN – Single hidden layer neural network</li>
+        <li>• CNN – Convolutional neural network (64×64)</li>
+        <li>• Deep NN – Multi-layer network</li>
+        <li>• SVM – Support vector machine</li>
+    </ul>
+</div>
+{% endblock %}

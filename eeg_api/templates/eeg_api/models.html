@@ -1,0 +1,85 @@
+{% extends "eeg_api/base.html" %}
+
+{% block title %}Models - EEG Prediction Dashboard{% endblock %}
+
+{% block content %}
+<h1>Model Evaluation</h1>
+
+{% if split_info %}
+<div class="card">
+    <h2>Dataset Split</h2>
+    <p>Train/validation/test split used for training:</p>
+    <div class="metrics" style="margin-top: 1rem;">
+        <span class="metric"><strong>Total:</strong> {{ split_info.total }} samples</span>
+        <span class="metric"><strong>Train:</strong> {{ split_info.train }} (70%)</span>
+        <span class="metric"><strong>Validation:</strong> {{ split_info.validation }} (15%)</span>
+        <span class="metric"><strong>Test:</strong> {{ split_info.test }} (15%)</span>
+    </div>
+</div>
+{% else %}
+<div class="card">
+    <p>Run <code>python run_demo.py</code> to train models and generate dataset split info.</p>
+</div>
+{% endif %}
+
+<div class="card">
+    <p>Confusion matrices show how each model classifies the four emotions. Diagonal = correct predictions.</p>
+</div>
+
+<h2>Confusion Matrices — Comparison</h2>
+<div class="card">
+    {% if comparison_img %}
+    <img src="{{ comparison_img }}" alt="Model comparison" style="width: 100%;">
+    {% else %}
+    <p>Run <code>python evaluate_and_visualize.py</code> to generate comparison plot.</p>
+    {% endif %}
+</div>
+
+<h2>Individual Models</h2>
+<div class="grid-2">
+    <div class="card">
+        <h3>Random Forest</h3>
+        {% if rf_img %}
+        <img src="{{ rf_img }}" alt="Random Forest confusion matrix">
+        {% else %}
+        <p>Plot not found.</p>
+        {% endif %}
+    </div>
+    <div class="card">
+        <h3>Shallow NN</h3>
+        {% if nn_img %}
+        <img src="{{ nn_img }}" alt="Shallow NN confusion matrix">
+        {% else %}
+        <p>Plot not found.</p>
+        {% endif %}
+    </div>
+</div>
+
+<h2>ROC-AUC (One-vs-Rest)</h2>
+<div class="card">
+    <p>ROC curves for each emotion class. AUC closer to 1.0 indicates better discriminative ability.</p>
+</div>
+{% if roc_comparison_img %}
+<div class="card">
+    <img src="{{ roc_comparison_img }}" alt="ROC-AUC comparison" style="width: 100%;">
+</div>
+{% endif %}
+<div class="grid-2">
+    <div class="card">
+        <h3>Random Forest — ROC</h3>
+        {% if roc_rf_img %}
+        <img src="{{ roc_rf_img }}" alt="Random Forest ROC curves">
+        {% else %}
+        <p>Run <code>python evaluate_and_visualize.py</code> to generate.</p>
+        {% endif %}
+    </div>
+    <div class="card">
+        <h3>Shallow NN — ROC</h3>
+        {% if roc_nn_img %}
+        <img src="{{ roc_nn_img }}" alt="Shallow NN ROC curves">
+        {% else %}
+        <p>Run <code>python evaluate_and_visualize.py</code> to generate.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
